@@ -18,6 +18,6 @@
     <view class="page__ft">没有更多了</view>
   </view>
   <view class="footer">
-    <button class="weui-btn" type="primary">发起同游计划</button>
+    <button class="weui-btn" type="primary" bindtap="openInitiate">发起同游计划</button>
   </view>
 </block>

@@ -5,8 +5,9 @@
     <text class="userinfo-nickname">{{userInfo.nickName}}</text>
   </view>
   <view class="item">
-      <button class="button button-waiting" type="primary" bindtap="openWaitingTap">准备中计划</button>
-      <button class="button button-map" type="primary" bindtap="openMapTap">打开地图</button>
-      <button class="button button-map2" type="primary" bindtap="openMap2Tap">打开地图(旧)</button>
+      <button class="button button-item" type="primary" bindtap="openWaiting">准备中计划</button>
+      <button class="button button-item" type="primary" bindtap="openInitiate">发起同游计划</button>
+      <button class="button button-item" type="primary" bindtap="openMap">打开地图</button>
+      <button class="button button-item" type="primary" bindtap="openMap2">打开地图(旧)</button>
   </view>
 </view>

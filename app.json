@@ -1,6 +1,7 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/initiate/initiate",
     "pages/list/list",
     "pages/map/map",
     "pages/map/map2",

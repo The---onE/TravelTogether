@@ -31,14 +31,6 @@
   margin-top: 80rpx;
 }
 
-.button-waiting {
-  margin-top: 50rpx;
-}
-
-.button-map {
-  margin-top: 50rpx;
-}
-
-.button-map2 {
+.button-item {
   margin-top: 50rpx;
 }

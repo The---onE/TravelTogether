@@ -16,19 +16,25 @@ Page({
     })
   },
   // 打开准备中列表
-  openWaitingTap: function () {
+  openWaiting: function () {
     wx.navigateTo({
       url: '../list/list'
     })
   },
+  // 打开发起计划页
+  openInitiate: function () {
+    wx.navigateTo({
+      url: '../initiate/initiate'
+    })
+  },
   // 打开地图
-  openMapTap: function () {
+  openMap: function () {
     wx.navigateTo({
       url: '../map/map'
     })
   },
   // 打开地图(旧)
-  openMap2Tap: function () {
+  openMap2: function () {
     wx.navigateTo({
       url: '../map/map2'
     })

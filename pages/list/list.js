@@ -28,6 +28,12 @@ Page({
   },
   onUnload: function () {
     // 页面关闭
+  },
+  // 打开发起计划页
+  openInitiate: function () {
+    wx.navigateTo({
+      url: '../initiate/initiate'
+    })
   }
 })
 
