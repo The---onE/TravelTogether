@@ -4,8 +4,9 @@
     <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
     <text class="userinfo-nickname">{{userInfo.nickName}}</text>
   </view>
-  <view class="map">
-      <button class="button-map" bindtap="openMapTap">打开地图</button>
-      <button class="button-map2" bindtap="openMap2Tap">打开地图(旧)</button>
+  <view class="item">
+      <button class="button button-waiting" type="primary" bindtap="openWaitingTap">准备中计划</button>
+      <button class="button button-map" type="primary" bindtap="openMapTap">打开地图</button>
+      <button class="button button-map2" type="primary" bindtap="openMap2Tap">打开地图(旧)</button>
   </view>
 </view>

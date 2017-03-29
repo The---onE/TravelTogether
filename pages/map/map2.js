@@ -3,7 +3,7 @@
 var app = getApp();
 
 // 获取LeanCloud对象
-const AV = require('../../libs/av-weapp.js');
+const AV = require('../../libs/av-weapp-min.js');
 
 var LOCATION_TYPE = 'gcj02'; // 定位类型，gcj02 返回可用于地图的坐标，wgs84 返回 gps 坐标
 var DEFAULT_SCALA = 16; // 默认缩放，范围5-18

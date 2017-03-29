@@ -1,0 +1,21 @@
+/* pages/list/list.wxss */
+
+.page-loading {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.view-loading {
+  align-self: center;
+  text-align: center;
+  width: 100%;
+}
+
+.footer {
+  position: fixed;
+  bottom: 7px;
+  width: 100%;
+  height: 40px;
+}

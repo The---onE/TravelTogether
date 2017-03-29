@@ -1,7 +1,7 @@
 //index.js
 
 // 获取LeanCloud对象
-const AV = require('../../libs/av-weapp.js');
+const AV = require('../../libs/av-weapp-min.js');
 
 // 获取应用实例
 var app = getApp()
@@ -13,6 +13,12 @@ Page({
   bindViewTap: function () {
     wx.navigateTo({
       url: '../logs/logs'
+    })
+  },
+  // 打开准备中列表
+  openWaitingTap: function () {
+    wx.navigateTo({
+      url: '../list/list'
     })
   },
   // 打开地图

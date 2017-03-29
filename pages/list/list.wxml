@@ -1,0 +1,23 @@
+<!--pages/list/list.wxml-->
+<block wx:if="{{ loading }}">
+  <view class="page-loading">
+    <view class="view-loading">加载中……</view>
+  </view>
+</block>
+<block wx:else>
+  <view class="page__bd">
+    <block wx:for="{{ list }}" wx:key="id">
+      <view class="weui-cells__title">{{ item.title }}</view>
+      <view class="weui-cells weui-cells_after-title">
+        <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">{{ item.source }} → {{ item.destination }}</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">{{ item.time }}</view>
+        </navigator>
+      </view>
+    </block>
+    <view class="page__ft">没有更多了</view>
+  </view>
+  <view class="footer">
+    <button class="weui-btn" type="primary">发起同游计划</button>
+  </view>
+</block>

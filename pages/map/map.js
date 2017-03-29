@@ -3,7 +3,7 @@
 var app = getApp();
 
 // 获取LeanCloud对象
-const AV = require('../../libs/av-weapp.js');
+const AV = require('../../libs/av-weapp-min.js');
 
 var height; // 屏幕高度，在onLoad中获取
 var width; // 屏幕宽度，在onLoad中获取
