@@ -1,0 +1,31 @@
+<!--pages/map/map.wxml-->
+<view class="board">
+  <view class="view-search">
+    <input class="input-search" bindinput="onSearchInput" value="{{searchValue}}" />
+    <button bindtap="onCancelSearchTap">取消</button>
+    <button bindtap="onSearchTap">搜索</button>
+  </view>
+  <map id="map" class="map" longitude="{{position.longitude}}" latitude="{{position.latitude}}" scale="{{scala}}" markers="{{markers}}" bindmarkertap="onMarkerTap" bindtap="onMapTap" show-location="true" />
+  <view class="view-add-collection">
+    <button bindtap="onCollectTap">添加收藏</button>
+  </view>
+  <modal title="添加收藏" hidden="{{collectModalHidden}}" confirm-text="确定" cancel-text="取消" bindconfirm="onConfirmCollectTap" bindcancel="onCancelCollectTap">
+    <view class="view-modal">
+      <input class="input-modal" value="{{value}}" bindinput="onCollectTitleInput" placeholder="请输入标题" />
+      <input class="input-modal" value="{{value}}" bindinput="onCollectTypeInput" placeholder="请输入类型" />
+      <input class="input-modal-s" value="{{value}}" bindinput="onCollectContentInput" placeholder="请输入详细内容(可选)" />
+      <radio-group class="radio-group-modal" bindchange="onPrivacyChange">
+        <label class="radio" wx:for-items="{{privacy}}">
+          <radio value="{{item.value}}" checked="{{item.checked}}" />{{item.name}}
+        </label>
+      </radio-group>
+    </view>
+  </modal>
+  <modal title="收藏信息" hidden="{{collectionModalHidden}}" confirm-text="确定" cancel-text="取消" bindconfirm="onCollectionTap" bindcancel="onCollectionTap">
+    <view class="view-modal">
+      <text class="text-modal">{{collection.title}}</text>
+      <text class="text-modal">{{collection.type}}</text>
+      <text class="text-modal-s">{{collection.content}}</text>
+    </view>
+  </modal>
+</view>

@@ -24,7 +24,7 @@ Page({
   // 打开地图(旧)
   openMap2Tap: function () {
     wx.navigateTo({
-      url: '../map2/map2'
+      url: '../map/map2'
     })
   },
   onLoad: function () {
