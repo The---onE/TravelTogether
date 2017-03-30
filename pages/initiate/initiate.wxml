@@ -5,8 +5,9 @@
     <view class="page__title">发起同游计划</view>
     <view class="page__desc">发起一个同游计划，发布后其他人都可以看到你的计划，并可以选择加入你的团队</view>
   </view>
-  <view class="page__bd">
-    <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">错误提示</view>
+  <form class="page__bd" bindsubmit="onSubmit">
+    <view class="weui-toptips weui-toptips_warn" wx:if="{{showError}}">{{errorInfo}}</view>
+
     <view class="weui-cells__title">计划信息</view>
     <view class="weui-cells weui-cells_after-title">
 
@@ -16,27 +17,49 @@
           <view class="weui-label">标题</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="为你的计划取个响亮的名字" />
+          <input class="weui-input" name="title" placeholder="为你的计划取个响亮的名字" />
         </view>
       </view>
 
       <!--出发地-->
+      <view class="weui-cell weui-cell_input weui-cell_vcode">
+        <view class="weui-cell__hd">
+          <view class="weui-label">出发点</view>
+        </view>
+        <view class="weui-cell__bd">
+          <text>{{ srcPosition }}</text>
+        </view>
+        <view class="weui-cell__ft">
+          <view class="weui-vcode-btn" bindtap="onChooseSourcePoint">选取出发点</view>
+        </view>
+      </view>
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
           <view class="weui-label">出发地</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入出发地" />
+          <input class="weui-input" name="srcTitle" placeholder="请输入出发地" value="{{srcTitle}}" />
         </view>
       </view>
 
       <!--目的地-->
+      <view class="weui-cell weui-cell_input weui-cell_vcode">
+        <view class="weui-cell__hd">
+          <view class="weui-label">目的点</view>
+        </view>
+        <view class="weui-cell__bd">
+          <text>{{ desPosition }}</text>
+        </view>
+        <view class="weui-cell__ft">
+          <view class="weui-vcode-btn" bindtap="onChooseDestinationPoint">选取目的点</view>
+        </view>
+      </view>
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
           <view class="weui-label">目的地</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入目的地" />
+          <input class="weui-input" name="desTitle" placeholder="请输入目的地" value="{{desTitle}}" />
         </view>
       </view>
 
@@ -46,7 +69,7 @@
           <view class="weui-label">出发日期</view>
         </view>
         <view class="weui-cell__bd">
-          <picker mode="date" value="{{date}}" start="2017-01-01" end="2099-12-31" bindchange="bindDateChange">
+          <picker mode="date" value="{{date}}" name="date" start="2017-01-01" end="2099-12-31" bindchange="onDateChange">
             <view class="weui-input">{{date}}</view>
           </picker>
         </view>
@@ -56,7 +79,7 @@
           <view class="weui-label">出发时间</view>
         </view>
         <view class="weui-cell__bd">
-          <picker mode="time" value="{{time}}" start="00:00" end="23:59" bindchange="bindTimeChange">
+          <picker mode="time" value="{{time}}" name="time" start="00:00" end="23:59" bindchange="onTimeChange">
             <view class="weui-input">{{time}}</view>
           </picker>
         </view>
@@ -68,7 +91,7 @@
           <view class="weui-label">旅行时间</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入旅行时间" />
+          <input class="weui-input" name="duration" placeholder="请输入旅行时间" />
         </view>
       </view>
 
@@ -78,7 +101,7 @@
           <view class="weui-label">预期人数</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" type="number" placeholder="请输入预期人数" />
+          <input class="weui-input" name="expectedPeople" type="number" placeholder="请输入预期人数" />
         </view>
       </view>
 
@@ -88,7 +111,7 @@
           <view class="weui-label">联系方式</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入联系方式（微信/QQ/手机号）" />
+          <input class="weui-input" name="contact" placeholder="微信/QQ/手机号" />
         </view>
       </view>
 
@@ -97,8 +120,7 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" placeholder="详细描述一下你的旅行计划吧" style="height: 3.3em" />
-            <view class="weui-textarea-counter">0/200</view>
+            <textarea class="weui-textarea" name="content" placeholder="详细描述一下你的旅行计划吧" style="height: 3.3em" />
           </view>
         </view>
       </view>
@@ -120,7 +142,7 @@
       </view>
     </view>-->
     <view class="weui-btn-area">
-      <button class="weui-btn" type="primary" bindtap="showTopTips">确定</button>
+      <button class="weui-btn" type="primary" form-type="submit">确定</button>
     </view>
-  </view>
+  </form>
 </view>

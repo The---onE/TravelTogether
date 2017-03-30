@@ -16,6 +16,17 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
+// 判断字符串是否非空，非空则抛出异常
+function getInputNotEmpty(str, emptyPrompt) {
+  var res = str.replace(/(^s)(s$)/g, "")
+  if (res.length > 0) {
+    return res;
+  } else {
+    throw emptyPrompt;
+  }
+}
+
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  getInputNotEmpty: getInputNotEmpty
 }
