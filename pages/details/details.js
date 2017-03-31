@@ -1,26 +1,48 @@
 // pages/details/details.js
+const util = require('../../utils/util.js')
+const AV = require('../../libs/av-weapp-min.js')
+
 Page({
-  data:{
-    objectId: null
+  data: {
   },
-  onLoad:function(options){
+  onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
     var objectId = options.id
-    console.info(objectId)
-    this.setData({
-      objectId: objectId
-    })
+    this.getProjectInfo(objectId);
   },
-  onReady:function(){
+  onReady: function () {
     // 页面渲染完成
   },
-  onShow:function(){
+  onShow: function () {
     // 页面显示
   },
-  onHide:function(){
+  onHide: function () {
     // 页面隐藏
   },
-  onUnload:function(){
+  onUnload: function () {
     // 页面关闭
+  },
+  // 加载计划信息
+  getProjectInfo: function (objectId) {
+    var that = this
+    var query = new AV.Query('Project');
+    query.get(objectId)
+      .then(function (project) {
+        // 处理计划信息
+        var time = util.getDateString(project.get('startTime'), "yyyy-MM-dd hh:mm")
+        project.set('time', time)
+
+        that.setData({ project: project })
+      })
+      .catch(console.error);
+  },
+  showPointInMap: function (e) {
+    var p = e.target.dataset.point
+    wx.openLocation({
+      latitude: parseFloat(p.latitude), // 纬度，范围为-90~90，负数表示南纬
+      longitude: parseFloat(p.longitude), // 经度，范围为-180~180，负数表示西经
+      name: p.name ? p.name : '', // 位置名
+      address: p.address ? p.address : '', // 地址的详细说明
+    })
   }
 })

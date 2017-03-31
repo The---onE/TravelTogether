@@ -1,2 +1,94 @@
 <!--pages/details/details.wxml-->
-<text>{{ objectId }}</text>
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="page__hd">
+    <view class="page__title">{{ project.title }}</view>
+    <view class="page__desc">{{ project.content }}</view>
+  </view>
+  <view class="page__bd" bindsubmit="onSubmit">
+    <view class="weui-cells__title">计划信息</view>
+    <view class="weui-cells weui-cells_after-title">
+
+      <!--出发地-->
+      <view class="weui-cell weui-cell_input weui-cell_vcode">
+        <view class="weui-cell__hd">
+          <view class="weui-label">出发点</view>
+        </view>
+        <view class="weui-cell__bd">
+          <text>{{ project.srcPoint.address }}</text>
+        </view>
+        <view class="weui-cell__ft">
+          <view class="weui-vcode-btn" data-point="{{ project.srcPoint }}" bindtap="showPointInMap">在地图查看</view>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">出发地</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" disabled="true" value="{{ project.srcTitle }}" />
+        </view>
+      </view>
+
+      <!--目的地-->
+      <view class="weui-cell weui-cell_input weui-cell_vcode">
+        <view class="weui-cell__hd">
+          <view class="weui-label">目的点</view>
+        </view>
+        <view class="weui-cell__bd">
+          <text>{{ project.desPoint.address }}</text>
+        </view>
+        <view class="weui-cell__ft">
+          <view class="weui-vcode-btn" data-point="{{ project.desPoint }}" bindtap="showPointInMap">在地图查看</view>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">目的地</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" disabled="true" value="{{ project.desTitle }}" />
+        </view>
+      </view>
+
+      <!--出发时间-->
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">出发日期</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" disabled="true" value="{{ project.time }}" />
+        </view>
+      </view>
+
+      <!--旅行时间-->
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">旅行时间</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" disabled="true" value="{{ project.duration }}" />
+        </view>
+      </view>
+
+      <!--预期人数-->
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">预期人数</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" disabled="true" value="{{ project.expectedPeople }}人" />
+        </view>
+      </view>
+
+      <!--联系方式-->
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">联系方式</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" disabled="true" value="{{ project.contact }}" />
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

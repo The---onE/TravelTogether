@@ -18,6 +18,7 @@ Page({
   },
   onShow: function () {
     // 页面显示
+    this.getData()
   },
   onHide: function () {
     // 页面隐藏
@@ -28,7 +29,10 @@ Page({
   // 加载数据
   getData: function () {
     var that = this
+    var now = new Date()
     var query = new AV.Query('Project')
+    query.greaterThanOrEqualTo('startTime', now)
+    query.ascending('startTime')
     query.find().then(function (data) {
       // 查询成功
       wx.hideNavigationBarLoading();
