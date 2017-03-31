@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/initiate/initiate",
     "pages/list/list",
+    "pages/details/details",
     "pages/map/map",
     "pages/map/map2",
     "pages/logs/logs"

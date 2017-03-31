@@ -9,8 +9,8 @@
     <block wx:for="{{ list }}" wx:key="id">
       <view class="weui-cells__title">{{ item.title }}</view>
       <view class="weui-cells weui-cells_after-title">
-        <navigator url="" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">{{ item.source }} → {{ item.destination }}</view>
+        <navigator url="../details/details?id={{ item.objectId }}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">{{ item.srcTitle }} → {{ item.desTitle }}</view>
           <view class="weui-cell__ft weui-cell__ft_in-access">{{ item.time }}</view>
         </navigator>
       </view>
