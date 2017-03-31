@@ -111,7 +111,7 @@ Page({
     wx.chooseLocation({
       success: function (res) {
         // 选取成功
-        var point = { latitude: res.latitude, longitude: res.longitude }; // 坐标点
+        var point = res; // 坐标点
         var position = res.address // 详细地址
         that.setData({
           srcPoint: point,
@@ -127,7 +127,7 @@ Page({
     wx.chooseLocation({
       success: function (res) {
         // 选取成功
-        var point = { latitude: res.latitude, longitude: res.longitude }; // 坐标点
+        var point = res; // 坐标点
         var position = res.address // 详细地址
         that.setData({
           desPoint: point,
