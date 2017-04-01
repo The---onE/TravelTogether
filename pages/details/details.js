@@ -4,10 +4,24 @@ const AV = require('../../libs/av-weapp-min.js')
 
 Page({
   data: {
+    user: null
   },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
+    wx.showNavigationBarLoading()
+    var temp = AV.Object('Project')
+    temp.set('title', '加载中……')
+    this.setData({
+      project: temp
+    })
     var objectId = options.id
+    var that = this
+    // 获取用户数据
+    AV.User.loginWithWeapp().then(user => {
+      that.setData({
+        user: user
+      })
+    }).catch(console.error)
     this.getProjectInfo(objectId);
   },
   onReady: function () {
@@ -28,9 +42,15 @@ Page({
     var query = new AV.Query('Project');
     query.get(objectId)
       .then(function (project) {
+        wx.hideNavigationBarLoading()
         // 处理计划信息
+        // 格式化时间
         var time = util.getDateString(project.get('startTime'), "yyyy-MM-dd hh:mm")
         project.set('time', time)
+        // 获取当前实际人数
+        var participant = project.get('participant')
+        var count = participant.length
+        project.set('actualPeople', count)
 
         that.setData({ project: project })
       })

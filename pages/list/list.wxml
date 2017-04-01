@@ -15,7 +15,7 @@
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
           <view class="weui-media-box__info">
             <view class="weui-media-box__info__meta">{{ item.time }}</view>
-            <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{ item.expectedPeople }}人</view>
+            <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{ item.actualPeople }}/{{ item.expectedPeople }}人</view>
           </view>
         </navigator>
       </view>

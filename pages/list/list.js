@@ -42,6 +42,10 @@ Page({
         // 格式化时间
         var time = util.getDateString(i.get('startTime'), "MM-dd")
         i.set('time', time)
+        // 获取当前实际人数
+        var participant = i.get('participant')
+        var count = participant.length
+        i.set('actualPeople', count)
       })
       that.setData({
         loading: false, // 加载完成
