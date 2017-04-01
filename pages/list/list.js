@@ -18,6 +18,7 @@ Page({
   },
   onShow: function () {
     // 页面显示
+    // 重新显示时刷新数据
     this.getData()
   },
   onHide: function () {

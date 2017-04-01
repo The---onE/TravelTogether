@@ -3,7 +3,21 @@
 var app = getApp();
 
 // 获取LeanCloud对象
-const AV = require('../../libs/av-weapp-min.js');
+const AV = require('../../libs/av-weapp.js');
+
+var height; // 屏幕高度，在onLoad中获取
+var width; // 屏幕宽度，在onLoad中获取
+
+var mapCtx; // 地图上下文，用于获取或设置中心坐标，在定位成功后初始化
+
+var mapHeight; // 地图控件高度，在onLoad获取页面高度后计算
+var mapWidth; // 地图控件宽度，在onLoad获取页面宽度后计算
+var MAP_HEIGHT_SCALA = 0.87; // 高度占总高度比例
+var MAP_WIDTH_SCALA = 1; // 宽度占总宽度比例
+
+var CENTER_CONTROL_ID = 0; // 中心控件ID
+var centerControl = { id: CENTER_CONTROL_ID, }; // 中心控件
+var CENTER_CONTROL_RES = '/res/selected.png'; // 中心控件图标
 
 var LOCATION_TYPE = 'gcj02'; // 定位类型，gcj02 返回可用于地图的坐标，wgs84 返回 gps 坐标
 var DEFAULT_SCALA = 16; // 默认缩放，范围5-18
@@ -13,10 +27,8 @@ var LOCATION_MARKER_ID = 0; // 定位点ID
 var locationMarker = { id: LOCATION_MARKER_ID }; // 定位标记
 var LOCATION_MARKER_RES = '/res/location.png'; // 定位标记图标
 
-var selected; // 选取坐标
 var SELECTED_MARKER_ID = 1; // 选取点ID
 var selectedMarker = { id: SELECTED_MARKER_ID, }; // 选取标记
-var SELECTED_MARKER_RES = '/res/selected.png'; // 选取标记图标
 
 // 添加收藏对话框
 var collectTitle; // 标题
@@ -28,7 +40,7 @@ var privacy = PRIVACY_PRIVATE; // 私密性
 
 var COLLECTION_MARKER_RES = '/res/collection.png'; // 收藏标记图标
 
-var search; //搜索框文本
+var search; // 搜索框文本
 
 var markers = [
   // 定位标记
@@ -36,6 +48,11 @@ var markers = [
   // 选取点ID
   selectedMarker,
 ]; // 地图标记
+
+var controls = [
+  // 中心控件
+  centerControl,
+]; // 地图控件
 
 Page({
   data: {
@@ -53,6 +70,7 @@ Page({
     wx.showModal({
       title: '提示',
       content: content,
+      showCancel: false,
     });
   },
 
@@ -80,17 +98,14 @@ Page({
         //   height: 100,
         // };
         // markers[LOCATION_MARKER_ID] = locationMarker;
-        //若尚未选定点，则把当前定位作为选定点
-        if (!selected) {
-          selected = location;
-        }
-        that.moveSelectedMarker(selected);
+        that.addCenterControl(); // 添加中心控件
         // 更新数据
         that.setData({
           position: location, // 定位坐标
           scala: DEFAULT_SCALA, // 缩放比例[5-18]
           markers: markers, // 标记点
         });
+        mapCtx = wx.createMapContext('map');
       },
       fail: function () {
         // 定位失败
@@ -99,6 +114,25 @@ Page({
       complete: function () {
         // 定位完成
       }
+    })
+  },
+
+  // 添加地图中心控件
+  addCenterControl: function () {
+    centerControl = {
+      id: CENTER_CONTROL_ID,
+      iconPath: CENTER_CONTROL_RES,
+      position: {
+        left: mapWidth / 2 - 40 / 2,
+        top: mapHeight / 2 - 40,
+        width: mapWidth * 0.1,
+        height: mapWidth * 0.1
+      }, // 根据地图宽高和图片尺寸计算位置
+      clickable: true
+    }
+    controls[CENTER_CONTROL_ID] = centerControl;
+    this.setData({
+      controls: controls,
     })
   },
 
@@ -145,14 +179,14 @@ Page({
     var publicQuery = AV.Query.and(publicType, publicCondition);
 
     // 标题等于搜索值
-    var titleEqual = new AV.Query('Collection');
+    var titleEqual= new AV.Query('Collection');
     titleEqual.equalTo('title', search);
     // 类型等于搜索值
     var typeEqual = new AV.Query('Collection');
     typeEqual.equalTo('type', search);
     // 私密类型
     var privateType = new AV.Query('Collection');
-    privateType.equalTo('privacy', PRIVACY_PRIVATE);
+    privateType.equalTo('privacy', PRIVACY_PRIVATE); 
     // 私密条件：标题完全匹配或类型完全匹配
     var privateCondition = AV.Query.or(titleEqual, typeEqual);
     // 私密搜索
@@ -211,20 +245,20 @@ Page({
     wx.chooseLocation({
       success: function (res) {
         // 选取成功
-        // 更新选取点
-        selected = {
+        var point = {
           latitude: res.latitude,
           longitude: res.longitude,
         };
-        // 更新选取点标记
-        that.moveSelectedMarker(selected);
+        that.setData({
+          position: point // 设置中心位置为选定点
+        });
       },
       cancel: function () {
         // 选取取消
       },
       fail: function () {
         // 选取失败
-        that.showPrompt('选取失败');
+        // that.showPrompt('选取失败');
       },
       complete: function () {
         // 选取完成
@@ -270,8 +304,8 @@ Page({
 
   // 点击添加收藏按钮事件
   onCollectTap: function () {
-    if (!selected) {
-      this.showPrompt('还未选取点')
+    if (!mapCtx) {
+      this.showPrompt('还未定位成功');
       return;
     }
     // 弹出添加收藏对话框
@@ -282,8 +316,8 @@ Page({
   // 点击确认添加收藏事件
   onConfirmCollectTap: function () {
     var that = this;
-    if (!selected) {
-      that.showPrompt('还未选取点');
+    if (!mapCtx) {
+      that.showPrompt('还未定位成功');
       return;
     }
     // 输入校验
@@ -299,39 +333,43 @@ Page({
       collectContent = '';
     }
 
-    var collection = AV.Object.extend('Collection');
-    var col = new collection();
-    col.set('title', collectTitle);
-    col.set('type', collectType);
-    col.set('content', collectContent);
-    col.set('latitude', selected.latitude);
-    col.set('longitude', selected.longitude);
-    col.set('privacy', privacy);
-    col.save().then(function (success) {
-      // 添加成功
-      that.showPrompt('添加成功');
-      markers.push({
-        id: markers.length,
-        title: collectTitle,
-        iconPath: COLLECTION_MARKER_RES,
-        latitude: selected.latitude,
-        longitude: selected.longitude,
-        width: 40,
-        height: 40
-      });
-      that.setData({
-        markers: markers,
-      });
-      // 隐藏添加收藏对话框
-      that.setData({
-        collectModalHidden: true,
-        value: '', // 清空输入框内容
-      });
-    }, function (error) {
-      // 添加失败
-      console.error('Failed to save in LeanCloud:' + error.message);
-      that.showPrompt('添加失败');
-    });
+    mapCtx.getCenterLocation({
+      success: function (center) {
+        var collection = AV.Object.extend('Collection');
+        var col = new collection();
+        col.set('title', collectTitle);
+        col.set('type', collectType);
+        col.set('content', collectContent);
+        col.set('latitude', center.latitude);
+        col.set('longitude', center.longitude);
+        col.set('privacy', privacy);
+        col.save().then(function (success) {
+          // 添加成功
+          that.showPrompt('添加成功');
+          markers.push({
+            id: markers.length,
+            title: collectTitle,
+            iconPath: COLLECTION_MARKER_RES,
+            latitude: center.latitude,
+            longitude: center.longitude,
+            width: mapWidth * 0.1,
+            height: mapWidth * 0.1
+          });
+          that.setData({
+            markers: markers,
+          });
+          // 隐藏添加收藏对话框
+          that.setData({
+            collectModalHidden: true,
+            value: '', // 清空输入框内容
+          });
+        }, function (error) {
+          // 添加失败
+          console.error('Failed to save in LeanCloud:' + error.message);
+          that.showPrompt('添加失败');
+        });
+      }
+    })
   },
   // 点击取消添加收藏事件
   onCancelCollectTap: function () {
@@ -358,24 +396,6 @@ Page({
     privacy = parseInt(e.detail.value);
   },
 
-  // 将选取点标记移至指定点
-  moveSelectedMarker: function (point) {
-    // 更新选取点标记
-    selectedMarker = {
-      id: SELECTED_MARKER_ID,
-      title: 'selected',
-      iconPath: SELECTED_MARKER_RES,
-      latitude: point.latitude,
-      longitude: point.longitude,
-      width: 40,
-      height: 40
-    };
-    markers[SELECTED_MARKER_ID] = selectedMarker;
-    this.setData({
-      markers: markers
-    });
-  },
-
   // 将收藏点添加到标记中
   addCollectionMarker: function (colFromCloud) {
     for (var i = 0; i < colFromCloud.length; ++i) {
@@ -386,8 +406,8 @@ Page({
         iconPath: COLLECTION_MARKER_RES,
         latitude: colFromCloud[i].get('latitude'),
         longitude: colFromCloud[i].get('longitude'),
-        width: 40,
-        height: 40,
+        width: mapWidth * 0.1,
+        height: mapWidth * 0.1,
         type: colFromCloud[i].get('type'),
         content: colFromCloud[i].get('content'),
       });
@@ -410,6 +430,23 @@ Page({
 
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
+    var that = this;
+    // 获取系统信息
+    wx.getSystemInfo({
+      success: function (res) {
+        // 获取页面大小
+        height = res.windowHeight;
+        width = res.windowWidth;
+
+        // 设置地图大小
+        mapHeight = height * MAP_HEIGHT_SCALA;
+        mapWidth = width * MAP_WIDTH_SCALA;
+        that.setData({
+          mapHeight: mapHeight + 'px',
+          mapWidth: mapWidth + 'px'
+        })
+      }
+    });
   },
   onReady: function () {
     // 页面渲染完成

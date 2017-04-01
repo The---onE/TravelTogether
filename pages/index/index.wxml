@@ -8,6 +8,5 @@
       <button class="button button-item" type="primary" bindtap="openWaiting">准备中计划</button>
       <button class="button button-item" type="primary" bindtap="openInitiate">发起同游计划</button>
       <button class="button button-item" type="primary" bindtap="openMap">打开地图</button>
-      <button class="button button-item" type="primary" bindtap="openMap2">打开地图(旧)</button>
   </view>
 </view>
