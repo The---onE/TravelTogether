@@ -19,11 +19,12 @@ Page({
     var that = this
     // 获取用户数据
     AV.User.loginWithWeapp().then(user => {
+      var objectId = options.id
       that.setData({
-        user: user
+        user: user,
+        objectId: objectId
       })
       // 加载计划信息
-      var objectId = options.id
       this.getProjectInfo(objectId)
     }).catch(console.error)
   },
@@ -153,6 +154,7 @@ Page({
   },
   // 加入计划
   joinProject: function () {
+    var that = this
     var project = this.data.project
     if (project.get('objectId')) {
       var participant = project.get('participant')
@@ -168,7 +170,8 @@ Page({
             content: extra,
             showCancel: false,
             success: function () {
-              wx.navigateBack();
+              var objectId = that.data.objectId
+              that.getProjectInfo(objectId)
             }
           })
         }, function (error) {
@@ -177,7 +180,7 @@ Page({
       }
     }
   },
-  
+
   // 确认是否退出
   askQuitProject: function () {
     var that = this
@@ -207,6 +210,7 @@ Page({
   },
   // 退出计划
   quitProject: function () {
+    var that = this
     var project = this.data.project
     if (project.get('objectId')) {
       var participant = project.get('participant')
@@ -224,7 +228,8 @@ Page({
             title: '退出成功',
             mask: false,
             success: function () {
-              wx.navigateBack();
+              var objectId = that.data.objectId
+              that.getProjectInfo(objectId)
             }
           })
         }, function (error) {
