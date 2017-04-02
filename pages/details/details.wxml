@@ -4,7 +4,7 @@
     <view class="page__title">{{ project.title }}</view>
     <view class="page__desc">{{ project.content }}</view>
   </view>
-  <view class="page__bd" bindsubmit="onSubmit">
+  <view class="page__bd">
     <view class="weui-cells__title">计划信息</view>
     <view class="weui-cells weui-cells_after-title">
 
@@ -89,6 +89,26 @@
           <input class="weui-input" disabled="true" value="{{ project.contact }}" />
         </view>
       </view>
+    </view>
+
+    <!--删除按钮-->
+    <view class="weui-btn-area" hidden="{{ availability!='creater' }}">
+      <button class="weui-btn" type="warn" bindtap="askDeleteProject">删除</button>
+    </view>
+
+    <!--加入按钮-->
+    <view class="weui-btn-area" hidden="{{ availability!='able' }}">
+      <button class="weui-btn" type="primary" bindtap="askJoinProject">加入</button>
+    </view>
+
+    <!--退出按钮-->
+    <view class="weui-btn-area" hidden="{{ availability!='participant' }}">
+      <button class="weui-btn" type="warn" bindtap="askQuitProject">退出</button>
+    </view>
+
+    <!--不可用按钮-->
+    <view class="weui-btn-area" hidden="{{ availability!='disable' }}">
+      <button class="weui-btn" type="primary" disabled="true">加入</button>
     </view>
   </view>
 </view>

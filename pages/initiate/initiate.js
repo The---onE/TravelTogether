@@ -46,7 +46,6 @@ Page({
       showError: false
     })
     var data = res.detail.value // 表单数据
-    console.info(that.data.user.id)
     try {
       var Project = AV.Object.extend('Project')
       var project = new Project() // 用于添加的LeanStorage对象
@@ -75,8 +74,11 @@ Page({
       project.set('duration', util.getInputNotEmpty(data.duration, '旅行时间不能为空'))
       project.set('expectedPeople', util.getInputNotEmpty(data.expectedPeople, '预期人数不能为空'))
       project.set('contact', util.getInputNotEmpty(data.contact, '联系方式不能为空'))
+      project.set('extra', util.getInputNotEmpty(data.extra, '额外信息不能为空'))
       project.set('content', util.getInputNotEmpty(data.content, '详细信息不能为空'))
       project.set('participant', [that.data.user.id])
+      project.set('creater', that.data.user.id)
+      project.set('status', 1) // 状态 1=等待中 -1=已删除
 
       wx.showToast({
         title: '提交中',

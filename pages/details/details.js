@@ -4,25 +4,28 @@ const AV = require('../../libs/av-weapp-min.js')
 
 Page({
   data: {
-    user: null
+    user: null,
+    availability: 'disable'
   },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
+    // 加载成功前提示信息
     wx.showNavigationBarLoading()
     var temp = AV.Object('Project')
     temp.set('title', '加载中……')
     this.setData({
       project: temp
     })
-    var objectId = options.id
     var that = this
     // 获取用户数据
     AV.User.loginWithWeapp().then(user => {
       that.setData({
         user: user
       })
+      // 加载计划信息
+      var objectId = options.id
+      this.getProjectInfo(objectId)
     }).catch(console.error)
-    this.getProjectInfo(objectId);
   },
   onReady: function () {
     // 页面渲染完成
@@ -52,10 +55,29 @@ Page({
         var count = participant.length
         project.set('actualPeople', count)
 
-        that.setData({ project: project })
+        // 根据创建者和参与者确定自己的权限
+        var self = that.data.user.id
+        var creater = project.get('creater')
+        var availability = 'disable'
+        if (self == creater) {
+          // 自己是创建者
+          availability = 'creater'
+        } else if (participant.indexOf(self) > -1) {
+          // 自己已加入计划
+          availability = 'participant'
+        } else {
+          // 可以加入计划
+          availability = 'able'
+        }
+
+        that.setData({
+          project: project,
+          availability: availability
+        })
       })
       .catch(console.error);
   },
+  // 在地图中显示
   showPointInMap: function (e) {
     var p = e.target.dataset.point
     wx.openLocation({
@@ -64,5 +86,151 @@ Page({
       name: p.name ? p.name : '', // 位置名
       address: p.address ? p.address : '', // 地址的详细说明
     })
+  },
+  // 确认是否删除
+  askDeleteProject: function () {
+    var that = this
+    var project = this.data.project
+    if (project.get('objectId')) {
+      // 对参与者的判断
+      var participant = project.get('participant')
+      if (participant.length > 1) {
+        wx.showModal({
+          title: '失败',
+          content: '已有其他人加入你的计划，无法删除',
+          showCancel: false
+        })
+        return
+      }
+      wx.showModal({
+        title: '删除',
+        content: '您确认要删除该计划吗？',
+        success: function (res) {
+          if (res.confirm) {
+            that.deleteProject()
+          }
+        }
+      })
+    }
+  },
+  // 删除计划
+  deleteProject: function () {
+    var project = this.data.project
+    if (project.get('objectId')) {
+      // 设置状态为已删除
+      project.set('status', -1)
+      project.save().then(function (p) {
+        wx.showToast({
+          title: '删除成功',
+          mask: false,
+          success: function () {
+            wx.navigateBack();
+          }
+        })
+      }, function (error) {
+        console.error(error);
+      });
+    }
+  },
+
+  // 确认是否加入
+  askJoinProject: function () {
+    var that = this
+    var project = this.data.project
+    if (project.get('objectId')) {
+      // 对参与者的判断
+      var participant = project.get('participant')
+      wx.showModal({
+        title: '加入',
+        content: '您确认要加入该计划吗？',
+        success: function (res) {
+          if (res.confirm) {
+            that.joinProject()
+          }
+        }
+      })
+    }
+  },
+  // 加入计划
+  joinProject: function () {
+    var project = this.data.project
+    if (project.get('objectId')) {
+      var participant = project.get('participant')
+      var self = this.data.user.id
+      // 参与者中没有自己
+      if (participant.indexOf(self) < 0) {
+        // 将自己加入计划的参与者
+        participant.push(self)
+        project.save().then(function (p) {
+          var extra = project.get('extra')
+          wx.showModal({
+            title: '加入成功',
+            content: extra,
+            showCancel: false,
+            success: function () {
+              wx.navigateBack();
+            }
+          })
+        }, function (error) {
+          console.error(error);
+        });
+      }
+    }
+  },
+  
+  // 确认是否退出
+  askQuitProject: function () {
+    var that = this
+    var project = this.data.project
+    if (project.get('objectId')) {
+      var participant = project.get('participant')
+      var self = this.data.user.id
+      // 确认自己是否是参与者
+      if (participant.indexOf(self) < 0) {
+        wx.showModal({
+          title: '失败',
+          content: '您尚未加入该计划',
+          showCancel: false
+        })
+        return
+      }
+      wx.showModal({
+        title: '退出',
+        content: '您确认要退出该计划吗？',
+        success: function (res) {
+          if (res.confirm) {
+            that.quitProject()
+          }
+        }
+      })
+    }
+  },
+  // 退出计划
+  quitProject: function () {
+    var project = this.data.project
+    if (project.get('objectId')) {
+      var participant = project.get('participant')
+      console.info(participant)
+      var self = this.data.user.id
+      var index = participant.indexOf(self)
+      // 参与者中包含自己
+      if (index > -1) {
+        // 通过截取拼接删除自己的元素
+        var newParticipant = participant.slice(0, index).concat(participant.slice(index + 1, participant.length))
+        // 设置计划为新的参与者列表
+        project.set('participant', newParticipant)
+        project.save().then(function (p) {
+          wx.showToast({
+            title: '退出成功',
+            mask: false,
+            success: function () {
+              wx.navigateBack();
+            }
+          })
+        }, function (error) {
+          console.error(error);
+        });
+      }
+    }
   }
 })

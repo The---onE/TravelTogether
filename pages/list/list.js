@@ -32,6 +32,7 @@ Page({
     var that = this
     var now = new Date()
     var query = new AV.Query('Project')
+    query.notEqualTo('status', -1)
     query.greaterThanOrEqualTo('startTime', now)
     query.ascending('startTime')
     query.find().then(function (data) {

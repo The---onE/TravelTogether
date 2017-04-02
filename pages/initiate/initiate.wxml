@@ -114,6 +114,16 @@
         </view>
       </view>
 
+      <!--额外信息-->
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">额外信息</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" name="extra" placeholder="只有加入计划的人才能看到的信息" />
+        </view>
+      </view>
+
       <!--详细信息-->
       <view class="weui-cells__title">详细信息</view>
       <view class="weui-cells weui-cells_after-title">
