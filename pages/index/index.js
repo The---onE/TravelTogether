@@ -16,9 +16,27 @@ Page({
     })
   },
   // 打开准备中列表
-  openWaiting: function () {
+  openWaitingList: function () {
     wx.navigateTo({
-      url: '../list/list'
+      url: '../list/list?condition=1'
+    })
+  },
+  // 打开我发起的列表
+  openSelfList: function () {
+    wx.navigateTo({
+      url: '../list/list?condition=2'
+    })
+  },
+  // 打开准备中列表
+  openJoinedList: function () {
+    wx.navigateTo({
+      url: '../list/list?condition=3'
+    })
+  },
+  // 打开准备中列表
+  openAllList: function () {
+    wx.navigateTo({
+      url: '../list/list?condition'
     })
   },
   // 打开发起计划页
@@ -31,12 +49,6 @@ Page({
   openMap: function () {
     wx.navigateTo({
       url: '../map/map'
-    })
-  },
-  // 打开地图(旧)
-  openMap2: function () {
-    wx.navigateTo({
-      url: '../map/map2'
     })
   },
   onLoad: function () {

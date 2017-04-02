@@ -19,7 +19,7 @@
 .userinfo-avatar {
   width: 128rpx;
   height: 128rpx;
-  border-radius: 50%;
+  border-radius: 0%;
 }
 
 .userinfo-nickname {
@@ -27,9 +27,9 @@
 }
 
 .item {
-  margin-top: 80rpx;
+  margin-top: 30rpx;
 }
 
 .button-item {
-  margin-top: 50rpx;
+  margin-top: 10rpx;
 }

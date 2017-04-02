@@ -11,6 +11,11 @@ Page({
     // 页面初始化 options为页面跳转所带来的参数
     // 加载成功前提示信息
     wx.showNavigationBarLoading()
+    if (wx.showLoading) {
+      wx.showLoading({
+        title: '加载中'
+      })
+    }
     var temp = AV.Object('Project')
     temp.set('title', '加载中……')
     this.setData({
@@ -47,6 +52,9 @@ Page({
     query.get(objectId)
       .then(function (project) {
         wx.hideNavigationBarLoading()
+        if (wx.hideLoading) {
+          wx.hideLoading();
+        }
         // 处理计划信息
         // 格式化时间
         var time = util.getDateString(project.get('startTime'), "yyyy-MM-dd hh:mm")
@@ -214,7 +222,6 @@ Page({
     var project = this.data.project
     if (project.get('objectId')) {
       var participant = project.get('participant')
-      console.info(participant)
       var self = this.data.user.id
       var index = participant.indexOf(self)
       // 参与者中包含自己

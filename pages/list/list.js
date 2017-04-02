@@ -10,7 +10,22 @@ Page({
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
     wx.showNavigationBarLoading();
-    this.getData();
+    if (wx.showLoading) {
+      wx.showLoading({
+        title: '加载中'
+      })
+    }
+    var that = this
+    // 获取用户数据
+    AV.User.loginWithWeapp().then(user => {
+      var condition = options.condition
+      that.setData({
+        user: user,
+        condition: condition
+      })
+      // 加载列表
+      this.getData();
+    }).catch(console.error)
   },
   onReady: function () {
     var that = this;
@@ -19,7 +34,9 @@ Page({
   onShow: function () {
     // 页面显示
     // 重新显示时刷新数据
-    this.getData()
+    if (this.data.user) {
+      this.getData()
+    }
   },
   onHide: function () {
     // 页面隐藏
@@ -31,15 +48,40 @@ Page({
   getData: function () {
     var that = this
     var now = new Date()
+    var condition = this.data.condition
     var query = new AV.Query('Project')
-    query.notEqualTo('status', -1)
-    query.greaterThanOrEqualTo('startTime', now)
-    query.ascending('startTime')
+
+    switch (condition) {
+      case '1':
+        // 准备中列表
+        query.notEqualTo('status', -1)
+        query.greaterThanOrEqualTo('startTime', now)
+        query.ascending('startTime')
+        break
+      case '2':
+        // 自己发起的
+        query.notEqualTo('status', -1)
+        query.equalTo('creater', that.data.user.id)
+        query.ascending('startTime')
+      case '3':
+        // 自己加入的
+        query.notEqualTo('status', -1)
+        query.equalTo('participant', that.data.user.id)
+        query.ascending('startTime')
+      default:
+        // 全部计划
+        query.notEqualTo('status', -1)
+        query.ascending('startTime')
+        break;
+    }
     query.find().then(function (data) {
       // 查询成功
       wx.hideNavigationBarLoading();
+      if (wx.hideLoading) {
+        wx.hideLoading();
+      }
       // 处理数据
-      data.forEach(function(i) {
+      data.forEach(function (i) {
         // 格式化时间
         var time = util.getDateString(i.get('startTime'), "MM-dd")
         i.set('time', time)
