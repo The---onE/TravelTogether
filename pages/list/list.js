@@ -6,25 +6,20 @@ Page({
   data: {
     loading: true, // 加载中
     list: [], // 初始列表
+    activeIndex: 0,
+    sliderOffset: 0,
+    sliderLeft: 0
   },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
-    wx.showNavigationBarLoading();
-    if (wx.showLoading) {
-      wx.showLoading({
-        title: '加载中'
-      })
-    }
     var that = this
     // 获取用户数据
     AV.User.loginWithWeapp().then(user => {
-      var condition = options.condition
       that.setData({
-        user: user,
-        condition: condition
+        user: user
       })
       // 加载列表
-      this.getData();
+      this.getData(0);
     }).catch(console.error)
   },
   onReady: function () {
@@ -34,8 +29,8 @@ Page({
   onShow: function () {
     // 页面显示
     // 重新显示时刷新数据
-    if (this.data.user) {
-      this.getData()
+    if (this.data.user && this.data.activeIndex) {
+      this.getData(this.data.activeIndex)
     }
   },
   onHide: function () {
@@ -44,35 +39,53 @@ Page({
   onUnload: function () {
     // 页面关闭
   },
+  // 点击选项卡
+  tabClick: function (e) {
+    var index = e.currentTarget.id
+    // 切换选项卡
+    this.setData({
+      sliderOffset: e.currentTarget.offsetLeft,
+      activeIndex: e.currentTarget.id
+    });
+    // 加载数据
+    this.getData(index)
+  },
   // 加载数据
-  getData: function () {
+  getData: function (condition) {
+    // 显示加载提示
+    wx.showNavigationBarLoading()
+    if (wx.showLoading) {
+      wx.showLoading({
+        title: '加载中'
+      })
+    }
     var that = this
     var now = new Date()
-    var condition = this.data.condition
     var query = new AV.Query('Project')
-
     switch (condition) {
-      case '1':
+      case '0':
         // 准备中列表
         query.notEqualTo('status', -1)
         query.greaterThanOrEqualTo('startTime', now)
         query.ascending('startTime')
         break
-      case '2':
+      case '1':
         // 自己发起的
         query.notEqualTo('status', -1)
         query.equalTo('creater', that.data.user.id)
         query.ascending('startTime')
-      case '3':
+        break
+      case '2':
         // 自己加入的
         query.notEqualTo('status', -1)
         query.equalTo('participant', that.data.user.id)
         query.ascending('startTime')
+        break
       default:
         // 全部计划
         query.notEqualTo('status', -1)
         query.ascending('startTime')
-        break;
+        break
     }
     query.find().then(function (data) {
       // 查询成功

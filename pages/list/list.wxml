@@ -1,3 +1,4 @@
+
 <!--pages/list/list.wxml-->
 <block wx:if="{{ loading }}">
   <view class="page-loading">
@@ -6,22 +7,53 @@
 </block>
 <block wx:else>
   <view class="page__bd">
-    <block wx:for="{{ list }}" wx:key="id">
-      <view class="weui-cells__title"></view>
-      <view class="weui-cells weui-cells_after-title">
-        <navigator url="../details/details?id={{ item.objectId }}" class="weui-media-box weui-media-box_text">
-          <view class="weui-media-box__title weui-media-box__title_in-text">{{ item.title }}</view>
-          <view class="weui-media-box__desc">{{ item.srcTitle }} → {{ item.desTitle }}</view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-          <view class="weui-media-box__info">
-            <view class="weui-media-box__info__meta">{{ item.time }}</view>
-            <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{ item.actualPeople }}/{{ item.expectedPeople }}人</view>
-          </view>
-        </navigator>
+    <view class="weui-tab">
+
+      <!--选项卡标签-->
+      <view class="weui-navbar">
+        <view id="0" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+          <view class="weui-navbar__title">准备中</view>
+        </view>
+        <view id="1" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+          <view class="weui-navbar__title">我发起的</view>
+        </view>
+        <view id="2" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+          <view class="weui-navbar__title">我加入的</view>
+        </view>
+        <view id="3" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+          <view class="weui-navbar__title">全部</view>
+        </view>
+        <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
       </view>
-    </block>
-    <view class="page__ft">没有更多了</view>
+
+      <!--选项卡内容-->
+      <view class="weui-tab__panel">
+        <view class="weui-tab__content">
+
+          <!--数据列表-->
+          <block wx:for="{{ list }}" wx:key="id">
+            <view class="weui-cells__title"></view>
+            <view class="weui-cells weui-cells_after-title">
+              <navigator url="../details/details?id={{ item.objectId }}" class="weui-media-box weui-media-box_text">
+                <view class="weui-media-box__title weui-media-box__title_in-text">{{ item.title }}</view>
+                <view class="weui-media-box__desc">{{ item.srcTitle }} → {{ item.desTitle }}</view>
+                <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+                <view class="weui-media-box__info">
+                  <view class="weui-media-box__info__meta">{{ item.time }}</view>
+                  <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{ item.actualPeople }}/{{ item.expectedPeople }}人</view>
+                </view>
+              </navigator>
+            </view>
+          </block>
+
+          <!--列表底部-->
+          <view class="page__ft">没有更多了</view>
+        </view>
+      </view>
+    </view>
   </view>
+
+  <!--底部按钮-->
   <view class="footer">
     <button class="weui-btn" type="primary" bindtap="openInitiate">发起同游计划</button>
   </view>

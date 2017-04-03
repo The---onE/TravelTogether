@@ -6,10 +6,7 @@
   </view>
   <view class="item">
       <button class="button button-item" type="primary" bindtap="openInitiate">发起同游计划</button>
-      <button class="button button-item" type="primary" bindtap="openWaitingList">准备中计划</button>
-      <button class="button button-item" type="primary" bindtap="openSelfList">我发起的计划</button>
-      <button class="button button-item" type="primary" bindtap="openJoinedList">我加入的计划</button>
-      <button class="button button-item" type="primary" bindtap="openAllList">全部计划</button>
+      <button class="button button-item" type="primary" bindtap="openList">查看同游计划</button>
       <button class="button button-item" type="primary" bindtap="openMap">打开地图</button>
   </view>
 </view>

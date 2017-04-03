@@ -27,9 +27,9 @@
 }
 
 .item {
-  margin-top: 30rpx;
+  margin-top: 80rpx;
 }
 
 .button-item {
-  margin-top: 10rpx;
+  margin-top: 50rpx;
 }

@@ -15,26 +15,8 @@ Page({
       url: '../logs/logs'
     })
   },
-  // 打开准备中列表
-  openWaitingList: function () {
-    wx.navigateTo({
-      url: '../list/list?condition=1'
-    })
-  },
-  // 打开我发起的列表
-  openSelfList: function () {
-    wx.navigateTo({
-      url: '../list/list?condition=2'
-    })
-  },
-  // 打开准备中列表
-  openJoinedList: function () {
-    wx.navigateTo({
-      url: '../list/list?condition=3'
-    })
-  },
-  // 打开准备中列表
-  openAllList: function () {
+  // 打开同游列表
+  openList: function () {
     wx.navigateTo({
       url: '../list/list?condition'
     })
