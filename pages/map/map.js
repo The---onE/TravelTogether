@@ -130,11 +130,10 @@ Page({
       id: markers.length,
       iconPath: res,
       latitude: point.latitude,
-      longitude: point.longitude,
-      width: mapWidth * 0.1,
-      height: mapWidth * 0.1,
+      longitude: point.longitude
     });
   },
+  // 添加线段
   addLine: function (start, end, color, width) {
     var points = [start, end];
     lines.push({
