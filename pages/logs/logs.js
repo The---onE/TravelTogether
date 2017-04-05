@@ -10,5 +10,9 @@ Page({
         return util.formatTime(new Date(log))
       })
     })
-  }
+  },
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    wx.stopPullDownRefresh()
+  },
 })

@@ -38,6 +38,10 @@ Page({
   onUnload: function () {
     // 页面关闭
   },
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    wx.stopPullDownRefresh()
+  },
 
   // 点击确定提交表单
   onSubmit: function (res) {

@@ -20,7 +20,7 @@ var DESTINATION_MARKER_RES = '/res/destination.png'; // 目的点图标
 var CENTER_CONTROL_RES = '/res/selected.png'; // 中心控件图标
 
 var LOCATION_TYPE = 'gcj02'; // 定位类型，gcj02 返回可用于地图的坐标，wgs84 返回 gps 坐标
-var DEFAULT_SCALA = 16; // 默认缩放，范围5-18
+var DEFAULT_SCALA = 12; // 默认缩放，范围5-18
 
 var location = {}; // 定位坐标
 var LOCATION_MARKER_ID = 0; // 定位点ID
@@ -33,7 +33,7 @@ var search; // 搜索框文本
 
 var markers = [
   // 定位标记
-  locationMarker,
+  //locationMarker,
 ]; // 地图标记
 
 var controls = [
@@ -73,7 +73,10 @@ Page({
       },
       fail: function () {
         // 定位失败
-        that.showPrompt('定位失败');
+        wx.showModal({
+          title: '定位失败',
+          showCancel: false
+        })
       },
       complete: function () {
         // 定位完成
@@ -113,7 +116,6 @@ Page({
         that.addMarker(end, DESTINATION_MARKER_RES)
         that.addLine(start, end, '#51c33288', 5)
       })
-      that.addMarker(data);
       that.setData({
         markers: markers,
         lines: lines

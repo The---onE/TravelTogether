@@ -45,6 +45,11 @@ Page({
   onUnload: function () {
     // 页面关闭
   },
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    var objectId = this.data.objectId
+    this.getProjectInfo(objectId)
+  },
   // 加载计划信息
   getProjectInfo: function (objectId) {
     var that = this
@@ -55,6 +60,8 @@ Page({
         if (wx.hideLoading) {
           wx.hideLoading();
         }
+        // 停止下拉刷新
+        wx.stopPullDownRefresh()
         // 处理计划信息
         // 格式化时间
         var time = util.getDateString(project.get('startTime'), "yyyy-MM-dd hh:mm")

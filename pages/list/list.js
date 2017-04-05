@@ -6,7 +6,7 @@ Page({
   data: {
     loading: true, // 加载中
     list: [], // 初始列表
-    activeIndex: 0,
+    activeIndex: '0',
     sliderOffset: 0,
     sliderLeft: 0
   },
@@ -38,6 +38,10 @@ Page({
   },
   onUnload: function () {
     // 页面关闭
+  },
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    this.getData(this.data.activeIndex)
   },
   // 点击选项卡
   tabClick: function (e) {
@@ -93,6 +97,8 @@ Page({
       if (wx.hideLoading) {
         wx.hideLoading();
       }
+      // 停止下拉刷新
+      wx.stopPullDownRefresh()
       // 处理数据
       data.forEach(function (i) {
         // 格式化时间

@@ -11,9 +11,9 @@ Page({
   },
   // 事件处理函数
   bindViewTap: function () {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+    // wx.navigateTo({
+    //   url: '../logs/logs'
+    // })
   },
   // 打开同游列表
   openList: function () {
@@ -42,5 +42,9 @@ Page({
         userInfo: userInfo
       })
     })
-  }
+  },
+  // 下拉刷新
+  onPullDownRefresh: function () {
+    wx.stopPullDownRefresh()
+  },
 })
