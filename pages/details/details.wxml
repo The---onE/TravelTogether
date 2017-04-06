@@ -105,22 +105,17 @@
 
     <!--删除按钮-->
     <view class="weui-btn-area" hidden="{{ availability!='creater' }}">
-      <button class="weui-btn" type="warn" bindtap="askDeleteProject">删除</button>
+      <button class="weui-btn" type="warn" disabled="{{ disabled }}" bindtap="askDeleteProject">删除</button>
     </view>
 
     <!--加入按钮-->
     <view class="weui-btn-area" hidden="{{ availability!='able' }}">
-      <button class="weui-btn" type="primary" bindtap="askJoinProject">加入</button>
+      <button class="weui-btn" type="primary" disabled="{{ disabled }}" bindtap="askJoinProject">加入</button>
     </view>
 
     <!--退出按钮-->
     <view class="weui-btn-area" hidden="{{ availability!='participant' }}">
-      <button class="weui-btn" type="warn" bindtap="askQuitProject">退出</button>
-    </view>
-
-    <!--不可用按钮-->
-    <view class="weui-btn-area" hidden="{{ availability!='disable' }}">
-      <button class="weui-btn" type="primary" disabled="true">加入</button>
+      <button class="weui-btn" type="warn" disabled="{{ disabled }}" bindtap="askQuitProject">退出</button>
     </view>
   </view>
 </view>

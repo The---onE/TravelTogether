@@ -5,7 +5,8 @@ const AV = require('../../libs/av-weapp-min.js')
 Page({
   data: {
     user: null,
-    availability: 'disable'
+    availability: 'able',
+    disabled: true
   },
   onLoad: function (options) {
     // 页面初始化 options为页面跳转所带来的参数
@@ -85,10 +86,17 @@ Page({
           // 可以加入计划
           availability = 'able'
         }
+        var st = project.get('startTime')
+        var now = new Date()
+        var disabled = false
+        if (now > st) {
+          disabled = true
+        }
 
         that.setData({
           project: project,
-          availability: availability
+          availability: availability,
+          disabled : disabled
         })
       })
       .catch(console.error);

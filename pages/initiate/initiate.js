@@ -73,6 +73,10 @@ Page({
       if (!startTime) {
         throw '请选择出发时间'
       }
+      var now = new Date()
+      if (now > startTime) {
+        throw '出发时间不能早于当前时间'
+      }
       project.set('startTime', new Date(startTime)) // 出发时间
 
       project.set('duration', util.getInputNotEmpty(data.duration, '旅行时间不能为空'))

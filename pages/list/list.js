@@ -19,7 +19,7 @@ Page({
         user: user
       })
       // 加载列表
-      this.getData(0);
+      this.getData('0');
     }).catch(console.error)
   },
   onReady: function () {
