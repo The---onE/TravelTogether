@@ -103,6 +103,10 @@
       </block>
     </view>
 
+    <!--编辑按钮-->
+    <view class="weui-btn-area" hidden="{{ availability!='creater' }}">
+      <button class="weui-btn" type="primary" disabled="{{ disabled }}" bindtap="askEditProject">编辑</button>
+    </view>
     <!--删除按钮-->
     <view class="weui-btn-area" hidden="{{ availability!='creater' }}">
       <button class="weui-btn" type="warn" disabled="{{ disabled }}" bindtap="askDeleteProject">删除</button>

@@ -96,7 +96,7 @@ Page({
         that.setData({
           project: project,
           availability: availability,
-          disabled : disabled
+          disabled: disabled
         })
       })
       .catch(console.error);
@@ -111,6 +111,34 @@ Page({
       address: p.address ? p.address : '', // 地址的详细说明
     })
   },
+
+  // 确认是否编辑
+  askEditProject: function () {
+    var that = this
+    var project = this.data.project
+    if (project.get('objectId')) {
+      wx.showModal({
+        title: '编辑',
+        content: '您确认要编辑该计划吗？',
+        success: function (res) {
+          if (res.confirm) {
+            that.editProject()
+          }
+        }
+      })
+    }
+  },
+  // 编辑计划
+  editProject: function () {
+    var project = this.data.project
+    if (project.get('objectId')) {
+      var objectId = project.get('objectId')
+      wx.navigateTo({
+        url: '../edit/edit?id=' + objectId
+      })
+    }
+  },
+
   // 确认是否删除
   askDeleteProject: function () {
     var that = this

@@ -1,8 +1,8 @@
 <!--pages/initiate/initiate.wxml-->
 <view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
   <view class="page__hd">
-    <view class="page__title">发起同游计划</view>
-    <view class="page__desc">发起一个同游计划，发布后其他人都可以看到你的计划，并可以选择加入你的团队</view>
+    <view class="page__title">编辑同游计划</view>
+    <view class="page__desc">编辑您发起的同游计划，保存后其他人将会看到最新的计划</view>
   </view>
   <form class="page__bd" bindsubmit="onSubmit">
     <view class="weui-toptips weui-toptips_warn" wx:if="{{showError}}">{{errorInfo}}</view>
@@ -15,7 +15,7 @@
           <view class="weui-label">标题</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" name="title" placeholder="为你的计划取个响亮的名字" />
+          <input class="weui-input" name="title" placeholder="为你的计划取个响亮的名字" value="{{ project.title }}" />
         </view>
       </view>
 
@@ -25,7 +25,7 @@
           <view class="weui-label">出发点</view>
         </view>
         <view class="weui-cell__bd">
-          <text>{{ srcPosition }}</text>
+          <text>{{ project.srcPoint.address }}</text>
         </view>
         <view class="weui-cell__ft">
           <view class="weui-vcode-btn" bindtap="onChooseSourcePoint">选取出发点</view>
@@ -36,7 +36,7 @@
           <view class="weui-label">出发地</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" name="srcTitle" placeholder="请输入出发地" value="{{srcTitle}}" />
+          <input class="weui-input" name="srcTitle" placeholder="请输入出发地" value="{{ project.srcTitle }}" />
         </view>
       </view>
 
@@ -46,7 +46,7 @@
           <view class="weui-label">目的点</view>
         </view>
         <view class="weui-cell__bd">
-          <text>{{ desPosition }}</text>
+          <text>{{ project.desPoint.address }}</text>
         </view>
         <view class="weui-cell__ft">
           <view class="weui-vcode-btn" bindtap="onChooseDestinationPoint">选取目的点</view>
@@ -57,7 +57,7 @@
           <view class="weui-label">目的地</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" name="desTitle" placeholder="请输入目的地" value="{{desTitle}}" />
+          <input class="weui-input" name="desTitle" placeholder="请输入目的地" value="{{ project.desTitle }}" />
         </view>
       </view>
 
@@ -89,7 +89,7 @@
           <view class="weui-label">旅行时间</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" name="duration" placeholder="请输入旅行时间" />
+          <input class="weui-input" name="duration" placeholder="请输入旅行时间" value="{{ project.duration }}" />
         </view>
       </view>
 
@@ -99,7 +99,7 @@
           <view class="weui-label">预期人数</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" name="expectedPeople" type="number" placeholder="请输入预期人数" />
+          <input class="weui-input" name="expectedPeople" type="number" placeholder="请输入预期人数" value="{{ project.expectedPeople }}" />
         </view>
       </view>
 
@@ -109,7 +109,7 @@
           <view class="weui-label">联系方式</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" name="contact" placeholder="微信/QQ/手机号" />
+          <input class="weui-input" name="contact" placeholder="微信/QQ/手机号" value="{{ project.contact }}" />
         </view>
       </view>
 
@@ -119,7 +119,7 @@
           <view class="weui-label">额外信息</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" name="extra" placeholder="只有加入计划的人才能看到的信息" />
+          <input class="weui-input" name="extra" placeholder="只有加入计划的人才能看到的信息" value="{{ project.extra }}" />
         </view>
       </view>
 
@@ -128,27 +128,13 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" name="content" placeholder="详细描述一下你的旅行计划吧" style="height: 3.3em" />
+            <textarea class="weui-textarea" name="content" placeholder="详细描述一下你的旅行计划吧" style="height: 3.3em" value="{{ project.content }}" />
           </view>
         </view>
       </view>
     </view>
     <view class="weui-cells__tips">填好后提交你的计划吧</view>
 
-    <!--校验错误
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input weui-cell_warn">
-        <view class="weui-cell__hd">
-          <view class="weui-label">卡号</view>
-        </view>
-        <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入卡号" />
-        </view>
-        <view class="weui-cell__ft">
-          <icon type="warn" size="23" color="#E64340"></icon>
-        </view>
-      </view>
-    </view>-->
     <view class="weui-btn-area">
       <button class="weui-btn" type="primary" form-type="submit">确定</button>
     </view>

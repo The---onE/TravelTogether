@@ -4,6 +4,7 @@
     "pages/initiate/initiate",
     "pages/list/list",
     "pages/details/details",
+    "pages/edit/edit",
     "pages/map/map",
     "pages/logs/logs"
   ],
