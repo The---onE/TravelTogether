@@ -39,6 +39,10 @@ Page({
   },
   onShow: function () {
     // 页面显示
+    if (this.data.user && this.data.objectId) {
+      // 刷新数据
+      this.getProjectInfo(this.data.objectId)
+    }
   },
   onHide: function () {
     // 页面隐藏
