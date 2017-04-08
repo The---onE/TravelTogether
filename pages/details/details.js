@@ -151,11 +151,20 @@ Page({
       // 对参与者的判断
       var participant = project.get('participant')
       if (participant.length > 1) {
+        // wx.showModal({
+        //   title: '失败',
+        //   content: '已有其他人加入你的计划，无法删除',
+        //   showCancel: false
+        // })
         wx.showModal({
-          title: '失败',
-          content: '已有其他人加入你的计划，无法删除',
-          showCancel: false
-        })
+        title: '删除',
+        content: '已有他人加入您的计划，确认要删除该计划吗？',
+        success: function (res) {
+          if (res.confirm) {
+            that.deleteProject()
+          }
+        }
+      })
         return
       }
       wx.showModal({
