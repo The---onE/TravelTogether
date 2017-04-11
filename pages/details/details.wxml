@@ -25,7 +25,7 @@
           <view class="weui-label">出发地</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" disabled="true" value="{{ project.srcTitle }}" />
+          <view class="weui-input">{{ project.srcTitle }}</view>
         </view>
       </view>
 
@@ -46,7 +46,7 @@
           <view class="weui-label">目的地</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" disabled="true" value="{{ project.desTitle }}" />
+          <view class="weui-input">{{ project.desTitle }}</view>
         </view>
       </view>
 
@@ -56,7 +56,7 @@
           <view class="weui-label">出发日期</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" disabled="true" value="{{ project.time }}" />
+          <view class="weui-input">{{ project.time }}</view>
         </view>
       </view>
 
@@ -66,7 +66,7 @@
           <view class="weui-label">旅行时间</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" disabled="true" value="{{ project.duration }}" />
+          <view class="weui-input">{{ project.duration }}</view>
         </view>
       </view>
 
@@ -76,7 +76,7 @@
           <view class="weui-label">预期人数</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" disabled="true" value="{{ project.actualPeople }}/{{ project.expectedPeople }}人" />
+          <view class="weui-input">{{ project.actualPeople }}/{{ project.expectedPeople }}人</view>
         </view>
       </view>
 
@@ -86,7 +86,7 @@
           <view class="weui-label">联系方式</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" disabled="true" value="{{ project.contact }}" />
+          <view class="weui-input">{{ project.contact }}</view>
         </view>
       </view>
 
@@ -97,7 +97,7 @@
             <view class="weui-label">额外信息</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" disabled="true" value="{{ project.extra }}" />
+          <view class="weui-input">{{ project.extra }}</view>
           </view>
         </view>
       </block>
